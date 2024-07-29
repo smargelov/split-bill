@@ -14,6 +14,7 @@ export default [
 			'vue/html-indent': ['error', 'tab'],
 			'vue/multi-word-component-names': 'off',
 			'vue/component-api-style': ['error', ['script-setup', 'composition']],
+			'vue/singleline-html-element-content-newline': 'off',
 			'vue/max-attributes-per-line': [
 				'error',
 				{

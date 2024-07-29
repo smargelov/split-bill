@@ -1,3 +1,9 @@
 :root {
-	--main-font-size: 16px;
+	--el-color-white: #eeeeee;
+	--el-color-black: #232323;
+	--main-bg-color: var(--el-color-white);
+}
+
+html.dark {
+	--main-bg-color: var(--el-color-black);
 }
