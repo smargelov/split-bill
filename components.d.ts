@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AddBillForm: typeof import('./src/components/forms/AddBillForm.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElButtonGroup: typeof import('element-plus/es')['ElButtonGroup']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
@@ -22,6 +23,7 @@ declare module 'vue' {
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
+    JsonBillForm: typeof import('./src/components/forms/JsonBillForm.vue')['default']
     LPage: typeof import('./src/components/layouts/LPage.vue')['default']
     Page: typeof import('./src/components/layouts/page.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

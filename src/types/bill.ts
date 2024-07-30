@@ -1,13 +1,15 @@
 export interface IBillItem {
+	id?: string
 	originalName: string
 	ruName: string
 	quantity: number
 	price: number
 	sum: number
+	members: string[]
 }
 
 export interface IBill {
-	id: string
+	id?: string
 	date: string
 	place: string
 	persons: string[]

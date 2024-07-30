@@ -5,13 +5,7 @@
 				<add-bill-form v-model:form="form" />
 			</el-tab-pane>
 			<el-tab-pane label="JSON" name="json">
-				<el-input
-					v-model="jsonText"
-					:autosize="{ minRows: 5, maxRows: 15 }"
-					class="add-form__json-textarea"
-					type="textarea"
-					placeholder="Вставить json"
-				/>
+				<json-bill-form v-model:form="form" :is-json-tab-active="isJsonTabActive" />
 			</el-tab-pane>
 		</el-tabs>
 	</l-page>
@@ -19,18 +13,47 @@
 
 <script setup lang="ts">
 import AddBillForm from '@/components/forms/AddBillForm.vue'
+import { IBill } from '@/types/bill.ts'
+import JsonBillForm from '@/components/forms/JsonBillForm.vue'
 
 const pageTitle = 'Новый чек'
 
 const activeTab = ref('manually')
 const goToManually = () => (activeTab.value = 'manually')
+const isJsonTabActive = computed(() => activeTab.value === 'json')
 
 const jsonText = ref('')
 const billData = computed(() => {
 	return JSON.parse(jsonText.value)
 })
 
-const form = ref({
+const initialBill: IBill = {
+	id: '',
+	date: '',
+	place: '',
+	persons: [],
+	orderList: [
+		{
+			id: '',
+			originalName: '',
+			ruName: '',
+			quantity: 0,
+			price: 0,
+			sum: 0,
+			members: [],
+		},
+	],
+	currency: '',
+	summary: 0,
+	service: 0,
+	total: 0,
+	tips: 0,
+	paid: 0,
+}
+
+const form = ref<IBill>(initialBill)
+
+const test = {
 	id: '0001',
 	date: '2023-06-15T21:10',
 	place: '7M',
@@ -42,6 +65,7 @@ const form = ref({
 			quantity: 2,
 			price: 28,
 			sum: 56,
+			members: [],
 		},
 		{
 			originalName: 'Four Cheese Penne',
@@ -49,6 +73,7 @@ const form = ref({
 			quantity: 1,
 			price: 28,
 			sum: 28,
+			members: [],
 		},
 		{
 			originalName: 'Fettuccine Norcina',
@@ -56,6 +81,7 @@ const form = ref({
 			quantity: 1,
 			price: 26,
 			sum: 26,
+			members: [],
 		},
 		{
 			originalName: 'House Made Hummus',
@@ -63,6 +89,7 @@ const form = ref({
 			quantity: 1,
 			price: 18,
 			sum: 18,
+			members: [],
 		},
 		{
 			originalName: 'Chocolate Mousse with Cherry',
@@ -70,6 +97,7 @@ const form = ref({
 			quantity: 1,
 			price: 18,
 			sum: 18,
+			members: [],
 		},
 		{
 			originalName: 'Grilled Pear & Blue Cheese',
@@ -77,6 +105,7 @@ const form = ref({
 			quantity: 1,
 			price: 20,
 			sum: 20,
+			members: [],
 		},
 		{
 			originalName: 'Blimbap',
@@ -84,6 +113,7 @@ const form = ref({
 			quantity: 1,
 			price: 32,
 			sum: 32,
+			members: [],
 		},
 		{
 			originalName: '0 Banchan',
@@ -91,6 +121,7 @@ const form = ref({
 			quantity: 1,
 			price: 0,
 			sum: 0,
+			members: [],
 		},
 		{
 			originalName: 'Warm Apple Pie',
@@ -98,6 +129,7 @@ const form = ref({
 			quantity: 1,
 			price: 14,
 			sum: 14,
+			members: [],
 		},
 		{
 			originalName: 'Lemonade Fresh Strawberry',
@@ -105,6 +137,7 @@ const form = ref({
 			quantity: 1,
 			price: 14,
 			sum: 14,
+			members: [],
 		},
 		{
 			originalName: 'Vismino Kindzmarauli',
@@ -112,6 +145,7 @@ const form = ref({
 			quantity: 1,
 			price: 50,
 			sum: 50,
+			members: [],
 		},
 	],
 	currency: 'GEL',
@@ -120,7 +154,7 @@ const form = ref({
 	total: 268,
 	tips: 2,
 	paid: 270,
-})
+}
 </script>
 
 <style lang="scss" scoped>
