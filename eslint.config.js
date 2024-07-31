@@ -1,13 +1,65 @@
-import eslint from '@eslint/js'
-import tseslint from 'typescript-eslint'
-import pluginVue from 'eslint-plugin-vue'
-import eslintConfigPrettier from 'eslint-config-prettier'
+import globals from 'globals'
+import js from '@eslint/js'
+import ts from 'typescript-eslint'
+import vue from 'eslint-plugin-vue'
+import prettier from 'eslint-plugin-prettier/recommended'
 
 export default [
-	eslint.configs.recommended,
-	eslintConfigPrettier,
-	...tseslint.configs.recommended,
-	...pluginVue.configs['flat/recommended'],
+	{
+		languageOptions: {
+			globals: {
+				...globals.browser,
+				...globals.node,
+			},
+		},
+	},
+
+	// js
+	js.configs.recommended,
+	{
+		rules: {
+			'no-unused-vars': 'off',
+			'no-undef': 'off',
+			'no-console': 'warn',
+		},
+	},
+
+	// ts
+	...ts.configs.recommended,
+	{
+		rules: {
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{
+					argsIgnorePattern: '^_',
+					varsIgnorePattern: '^_',
+					caughtErrorsIgnorePattern: '^_',
+				},
+			],
+			'@typescript-eslint/no-explicit-any': 'error',
+			'@typescript-eslint/ban-types': 'error',
+			'@typescript-eslint/consistent-indexed-object-style': 'error',
+			'@typescript-eslint/consistent-type-imports': [
+				'error',
+				{ fixStyle: 'separate-type-imports' },
+			],
+			'@typescript-eslint/func-call-spacing': 'error',
+			'@typescript-eslint/no-inferrable-types': 'error',
+			'@typescript-eslint/no-non-null-assertion': 'error',
+			'@typescript-eslint/array-type': 'error',
+		},
+	},
+
+	// vue
+	...vue.configs['flat/recommended'],
+	{
+		files: ['*.vue', '**/*.vue'],
+		languageOptions: {
+			parserOptions: {
+				parser: ts.parser,
+			},
+		},
+	},
 	{
 		rules: {
 			'vue/no-unused-vars': 'error',
@@ -52,7 +104,57 @@ export default [
 					alphabetical: false,
 				},
 			],
-			'no-undef': 'off',
+
+			'vue/attribute-hyphenation': ['error', 'always'],
+			'vue/v-on-event-hyphenation': ['error', 'always', { autofix: true }],
+			'vue/no-v-html': 'off',
+
+			'vue/block-lang': ['error', { script: { lang: 'ts' } }],
+			'vue/block-order': ['error', { order: ['template', 'script[setup]', 'style[scoped]'] }],
+			'vue/custom-event-name-casing': ['error', 'kebab-case'],
+			'vue/define-emits-declaration': 'error',
+			'vue/define-macros-order': [
+				'error',
+				{
+					order: [
+						'defineOptions',
+						'defineModel',
+						'defineProps',
+						'defineEmits',
+						'defineSlots',
+					],
+					defineExposeLast: true,
+				},
+			],
+			'vue/enforce-style-attribute': ['error', { allow: ['scoped'] }],
+			'vue/define-props-declaration': 'error',
+			'vue/html-button-has-type': 'error',
+			'vue/no-multiple-objects-in-class': 'warn',
+			'vue/no-root-v-if': 'error',
+			'vue/no-template-target-blank': 'error',
+			'vue/no-undef-components': 'off',
+			'vue/no-undef-properties': 'warn',
+			'vue/no-unused-refs': 'warn',
+			'vue/no-use-v-else-with-v-for': 'error',
+			'vue/no-useless-mustaches': 'warn',
+			'vue/no-useless-v-bind': 'warn',
+			'vue/no-v-text': 'error',
+			'vue/padding-line-between-blocks': 'warn',
+			'vue/prefer-define-options': 'error',
+			'vue/prefer-separate-static-class': 'warn',
+			'vue/prefer-true-attribute-shorthand': 'warn',
+			'vue/require-macro-variable-name': 'error',
+			'vue/require-typed-ref': 'warn',
+			'vue/v-for-delimiter-style': 'error',
+			'vue/valid-define-options': 'error',
+		},
+	},
+
+	// prettier
+	prettier,
+	{
+		rules: {
+			'prettier/prettier': 'warn',
 		},
 	},
 ]

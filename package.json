@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite --host",
+		"dev": "vite --host --port 5555",
 		"eslint": "eslint",
 		"eslint:fix": "eslint --fix",
 		"stylelint": "stylelint \"**/*.{scss,vue,css}\"",
@@ -27,6 +27,7 @@
 		"@vue/language-server": "^2.0.29",
 		"eslint": "^9.8.0",
 		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-prettier": "^5.2.1",
 		"eslint-plugin-vue": "^9.27.0",
 		"prettier": "^3.3.3",
 		"sass": "^1.77.8",

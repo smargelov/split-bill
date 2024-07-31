@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { IBill } from '@/types/bill.ts'
+import type { IBill } from '@/types/bill.ts'
 import { usePerson } from '@/composables/usePerson.ts'
 
 const form = defineModel<IBill>('form', { required: true })
@@ -77,7 +77,7 @@ const personHandler = (newPersons: string[]) => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .add-bill-form {
 	display: grid;
 }

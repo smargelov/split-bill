@@ -27,16 +27,20 @@
 </template>
 
 <script setup lang="ts">
-import type { IBill } from '@/types/bill.ts'
+import type { IBill, IBillItem } from '@/types/bill.ts'
 import { Delete, CopyDocument, SuccessFilled } from '@element-plus/icons-vue'
 import 'element-plus/es/components/message/style/css'
 import { ElMessage } from 'element-plus'
+
+const form = defineModel<IBill>('form')
 
 const props = defineProps<{
 	isJsonTabActive: boolean
 }>()
 
-const form = defineModel<IBill>('form')
+const emit = defineEmits<{
+	(e: 'on-save'): void
+}>()
 
 const jsonText = ref('')
 
@@ -58,6 +62,7 @@ const onCopy = async () => {
 	}
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const checkBillItem = (item: any): boolean => {
 	const { originalName, ruName, quantity, price, sum, members } = item
 
@@ -76,6 +81,7 @@ const checkBillItem = (item: any): boolean => {
 	return typeof quantity === 'number' && typeof price === 'number' && typeof sum === 'number'
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const checkBillObject = (candidate: any): boolean => {
 	if (typeof candidate !== 'object') {
 		return false
@@ -127,8 +133,10 @@ const billAllowedFields = [
 const orderListAllowedFields = ['originalName', 'ruName', 'quantity', 'price', 'sum', 'members']
 
 const filterObjectFields = (
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	obj: Record<string, any>,
 	allowedFields: string[]
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Record<string, any> => {
 	return Object.keys(obj)
 		.filter((key) => allowedFields.includes(key))
@@ -137,6 +145,7 @@ const filterObjectFields = (
 				filteredObj[key] = obj[key]
 				return filteredObj
 			},
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			{} as Record<string, any>
 		)
 }
@@ -147,7 +156,7 @@ const onSave = async () => {
 		if (!isValid) {
 			throw new Error()
 		}
-		const formatedOrderList = candidate.orderList.map((item) =>
+		const formatedOrderList = candidate.orderList.map((item: IBillItem) =>
 			filterObjectFields(item, orderListAllowedFields)
 		)
 		const formatedBill = {
@@ -155,15 +164,15 @@ const onSave = async () => {
 			formatedOrderList,
 		}
 		form.value = { ...form.value, ...formatedBill } as IBill
+		emit('on-save')
 		ElMessage.success('JSON сохранён')
 	} catch (err) {
-		console.log(err)
-		ElMessage.error('Неверный формат JSON')
+		ElMessage.error(`Неверный формат JSON (${err})`)
 	}
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .json-bill-form {
 	display: grid;
 

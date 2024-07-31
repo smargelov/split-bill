@@ -5,7 +5,11 @@
 				<add-bill-form v-model:form="form" />
 			</el-tab-pane>
 			<el-tab-pane label="JSON" name="json">
-				<json-bill-form v-model:form="form" :is-json-tab-active="isJsonTabActive" />
+				<json-bill-form
+					v-model:form="form"
+					:is-json-tab-active="isJsonTabActive"
+					@on-save="goToManually"
+				/>
 			</el-tab-pane>
 		</el-tabs>
 	</l-page>
@@ -13,7 +17,7 @@
 
 <script setup lang="ts">
 import AddBillForm from '@/components/forms/AddBillForm.vue'
-import { IBill } from '@/types/bill.ts'
+import type { IBill } from '@/types/bill.ts'
 import JsonBillForm from '@/components/forms/JsonBillForm.vue'
 
 const pageTitle = 'Новый чек'
@@ -21,11 +25,6 @@ const pageTitle = 'Новый чек'
 const activeTab = ref('manually')
 const goToManually = () => (activeTab.value = 'manually')
 const isJsonTabActive = computed(() => activeTab.value === 'json')
-
-const jsonText = ref('')
-const billData = computed(() => {
-	return JSON.parse(jsonText.value)
-})
 
 const initialBill: IBill = {
 	id: '',

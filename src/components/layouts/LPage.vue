@@ -13,7 +13,7 @@ defineProps<{
 }>()
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .page {
 	display: grid;
 	gap: 1rem;

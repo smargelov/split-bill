@@ -9,7 +9,7 @@
 
 <script setup lang="ts"></script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .footer {
 	display: flex;
 	align-items: center;
