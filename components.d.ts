@@ -8,6 +8,10 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AddBillForm: typeof import('./src/components/forms/AddBillForm.vue')['default']
+    BillItem: typeof import('./src/components/forms/BillItem.vue')['default']
+    EditBill: typeof import('./src/components/EditBill.vue')['default']
+    ElAlert: typeof import('element-plus/es')['ElAlert']
+    ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElButtonGroup: typeof import('element-plus/es')['ElButtonGroup']
     ElCard: typeof import('element-plus/es')['ElCard']

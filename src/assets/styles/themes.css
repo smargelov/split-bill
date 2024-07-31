@@ -2,8 +2,10 @@
 	--el-color-white: #eeeeee;
 	--el-color-black: #232323;
 	--main-bg-color: var(--el-color-white);
+	--el-bg-color: var(--main-bg-color);
 }
 
 html.dark {
 	--main-bg-color: var(--el-color-black);
+	--el-bg-color: var(--main-bg-color);
 }

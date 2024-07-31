@@ -1,47 +1,24 @@
 <template>
 	<l-page :title="pageTitle">
-		<el-tabs v-model="activeTab" class="demo-tabs">
-			<el-tab-pane label="Вручную" name="manually">
-				<add-bill-form v-model:form="form" />
-			</el-tab-pane>
-			<el-tab-pane label="JSON" name="json">
-				<json-bill-form
-					v-model:form="form"
-					:is-json-tab-active="isJsonTabActive"
-					@on-save="goToManually"
-				/>
-			</el-tab-pane>
-		</el-tabs>
+		<edit-bill v-model:form="form" />
 	</l-page>
 </template>
 
 <script setup lang="ts">
-import AddBillForm from '@/components/forms/AddBillForm.vue'
 import type { IBill } from '@/types/bill.ts'
-import JsonBillForm from '@/components/forms/JsonBillForm.vue'
+import EditBill from '@/components/EditBill.vue'
+import { useInitialBillItem } from '@/composables/useInitialBillItem.ts'
 
 const pageTitle = 'Новый чек'
 
-const activeTab = ref('manually')
-const goToManually = () => (activeTab.value = 'manually')
-const isJsonTabActive = computed(() => activeTab.value === 'json')
+const { initialBillItem } = useInitialBillItem()
 
 const initialBill: IBill = {
 	id: '',
 	date: '',
 	place: '',
 	persons: [],
-	orderList: [
-		{
-			id: '',
-			originalName: '',
-			ruName: '',
-			quantity: 0,
-			price: 0,
-			sum: 0,
-			members: [],
-		},
-	],
+	orderList: [initialBillItem],
 	currency: '',
 	summary: 0,
 	service: 0,
@@ -50,7 +27,32 @@ const initialBill: IBill = {
 	paid: 0,
 }
 
+const draft = useStorage('draft', initialBill, undefined, {
+	serializer: {
+		read: (v: string) => (v ? JSON.parse(v) : null),
+		write: (v: IBill) => JSON.stringify(v),
+	},
+})
+
 const form = ref<IBill>(initialBill)
+
+onMounted(() => {
+	if (draft.value) {
+		form.value = draft.value
+	}
+})
+
+watch(
+	form,
+	(value) => {
+		draft.value = value
+	},
+	{ deep: true }
+)
+
+const removeDraft = () => {
+	draft.value = null
+}
 
 const test = {
 	id: '0001',
@@ -158,9 +160,6 @@ const test = {
 
 <style lang="scss" scoped>
 .add-form {
-	&__json-textarea {
-		width: 100%;
-		min-height: 20rem;
-	}
+	display: grid;
 }
 </style>

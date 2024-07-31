@@ -31,6 +31,33 @@
 				/>
 			</el-select>
 		</el-form-item>
+		<el-divider content-position="left">Элементы</el-divider>
+		<div class="add-form__items">
+			<bill-item
+				v-for="(_, index) in form.orderList"
+				:key="index"
+				v-model="form.orderList[index]"
+				:persons="form.persons"
+				:position="index + 1"
+			/>
+		</div>
+		<el-form-item>
+			<el-button-group>
+				<el-button :icon="CirclePlus" type="primary" @click="addNewBillItem"
+					>Добавить элемент</el-button
+				>
+				<el-button
+					v-if="form.orderList?.length > 1"
+					:icon="Delete"
+					type="danger"
+					text
+					bg
+					@click="removeLastBillItem"
+				>
+					Удалить последний
+				</el-button>
+			</el-button-group>
+		</el-form-item>
 		<el-row :gutter="20">
 			<el-col :span="8">
 				<el-form-item label="Сумма">
@@ -67,18 +94,36 @@
 <script setup lang="ts">
 import type { IBill } from '@/types/bill.ts'
 import { usePerson } from '@/composables/usePerson.ts'
+import { CirclePlus, Delete } from '@element-plus/icons-vue'
+import BillItem from '@/components/forms/BillItem.vue'
+import { useInitialBillItem } from '@/composables/useInitialBillItem.ts'
 
 const form = defineModel<IBill>('form', { required: true })
+
+const { initialBillItem } = useInitialBillItem()
 
 const { persons } = usePerson()
 
 const personHandler = (newPersons: string[]) => {
 	persons.value = newPersons
 }
+
+const addNewBillItem = () => {
+	form.value.orderList.push(initialBillItem)
+}
+const removeLastBillItem = () => {
+	form.value.orderList.pop()
+}
 </script>
 
 <style lang="scss" scoped>
-.add-bill-form {
+.add-form {
 	display: grid;
+
+	&__items {
+		display: grid;
+		gap: 1rem;
+		margin-bottom: 1rem;
+	}
 }
 </style>

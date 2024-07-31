@@ -176,6 +176,11 @@ const onSave = async () => {
 .json-bill-form {
 	display: grid;
 
+	&__json-textarea {
+		width: 100%;
+		min-height: 20rem;
+	}
+
 	&__buttons {
 		justify-self: end;
 	}
