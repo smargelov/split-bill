@@ -5,7 +5,7 @@ export const useInitialBillItem = (): { initialBillItem: IBillItem } => {
 		id: '',
 		originalName: '',
 		ruName: '',
-		quantity: 0,
+		quantity: 1,
 		price: 0,
 		sum: 0,
 		members: [],

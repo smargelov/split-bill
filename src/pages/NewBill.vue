@@ -1,6 +1,6 @@
 <template>
 	<l-page :title="pageTitle">
-		<edit-bill v-model:form="form" />
+		<edit-bill v-model:form="form" @on-save="onSave" />
 	</l-page>
 </template>
 
@@ -8,6 +8,7 @@
 import type { IBill } from '@/types/bill.ts'
 import EditBill from '@/components/EditBill.vue'
 import { useInitialBillItem } from '@/composables/useInitialBillItem.ts'
+import { useBillsStore } from '@/composables/useBillsStore.ts'
 
 const pageTitle = 'Новый чек'
 
@@ -52,6 +53,11 @@ watch(
 
 const removeDraft = () => {
 	draft.value = null
+}
+
+const { addBill } = useBillsStore()
+const onSave = () => {
+	addBill(form.value)
 }
 
 const test = {

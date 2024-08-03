@@ -21,3 +21,7 @@ export interface IBill {
 	tips: number
 	paid: number
 }
+
+export interface IJsonBill {
+	jsonText: string
+}
