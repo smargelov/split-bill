@@ -26,6 +26,7 @@ export const useEditFormValidation = (
 			},
 		],
 		total: [{ validator: validateTotal, trigger: ['blur'] }],
+		tips: [{ type: 'number', min: 0, message: 'Меньше 0', trigger: ['blur'] }],
 		paid: [{ validator: validatePaid, trigger: ['blur'] }],
 	})
 

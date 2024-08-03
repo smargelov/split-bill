@@ -158,7 +158,7 @@ export const useCustomValidators = <T>(
 		)
 	}
 
-	const getCandidate = async (value: string): Promise<IBill | Error> => {
+	const getCandidate = (value: string): IBill | Error => {
 		try {
 			return JSON.parse(value)
 		} catch (_) {
