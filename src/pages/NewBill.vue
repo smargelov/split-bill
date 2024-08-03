@@ -28,19 +28,13 @@ const initialBill: IBill = {
 	paid: 0,
 }
 
+const form = ref<IBill>(initialBill)
+
 const draft = useStorage('draft', initialBill, undefined, {
 	serializer: {
 		read: (v: string) => (v ? JSON.parse(v) : null),
 		write: (v: IBill) => JSON.stringify(v),
 	},
-})
-
-const form = ref<IBill>(initialBill)
-
-onMounted(() => {
-	if (draft.value) {
-		form.value = draft.value
-	}
 })
 
 watch(
@@ -50,6 +44,12 @@ watch(
 	},
 	{ deep: true }
 )
+
+onMounted(() => {
+	if (draft.value) {
+		form.value = draft.value
+	}
+})
 
 const removeDraft = () => {
 	draft.value = null

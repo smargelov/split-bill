@@ -21,7 +21,12 @@
 					:prop="`orderList.${position}.quantity`"
 					label="Количество"
 				>
-					<el-input v-model.number="item.quantity" min="1" type="number" />
+					<el-input
+						v-model.number="item.quantity"
+						min="1"
+						type="number"
+						@change="onQuantityOrPriceChange"
+					/>
 				</el-form-item>
 			</el-col>
 			<el-col :span="8">
@@ -30,7 +35,11 @@
 					:prop="`orderList.${position}.price`"
 					label="Цена"
 				>
-					<el-input v-model.number="item.price" type="number" />
+					<el-input
+						v-model.number="item.price"
+						type="number"
+						@change="onQuantityOrPriceChange"
+					/>
 				</el-form-item>
 			</el-col>
 			<el-col :span="8">
@@ -78,6 +87,10 @@ defineProps<{
 	position: number
 	rules: FormRules<IBillItem>
 }>()
+
+const onQuantityOrPriceChange = () => {
+	item.value.sum = Math.round(item.value.quantity * item.value.price * 100) / 100
+}
 </script>
 
 <style lang="scss" scoped>

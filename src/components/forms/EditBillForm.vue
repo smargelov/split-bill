@@ -67,12 +67,22 @@
 			</el-col>
 			<el-col :span="8">
 				<el-form-item label="Сервис" prop="service">
-					<el-input v-model.number="form.service" type="number" size="large" />
+					<el-input
+						v-model.number="form.service"
+						type="number"
+						size="large"
+						@change="onServiceChange"
+					/>
 				</el-form-item>
 			</el-col>
 			<el-col :span="8">
 				<el-form-item label="Итого" prop="total">
-					<el-input v-model.number="form.total" type="number" size="large" />
+					<el-input
+						v-model.number="form.total"
+						type="number"
+						size="large"
+						@change="onSummeryChange"
+					/>
 				</el-form-item>
 			</el-col>
 		</el-row>
@@ -80,12 +90,22 @@
 		<el-row :gutter="20">
 			<el-col :span="12">
 				<el-form-item label="Чаевые" prop="tips">
-					<el-input v-model.number="form.tips" type="number" size="large" />
+					<el-input
+						v-model.number="form.tips"
+						type="number"
+						size="large"
+						@change="onTipsChange"
+					/>
 				</el-form-item>
 			</el-col>
 			<el-col :span="12">
 				<el-form-item label="Оплатили" prop="paid">
-					<el-input v-model.number="form.paid" type="number" size="large" />
+					<el-input
+						v-model.number="form.paid"
+						type="number"
+						size="large"
+						@change="onPaidChange"
+					/>
 				</el-form-item>
 			</el-col>
 		</el-row>
@@ -114,21 +134,46 @@ const emit = defineEmits<{
 const { initialBillItem } = useInitialBillItem()
 
 const { persons } = usePerson()
-
 const personHandler = (newPersons: string[]) => {
 	persons.value = newPersons
 }
 
-const formRef = ref<FormInstance>()
 const addNewBillItem = () => {
 	form.value.orderList.push(initialBillItem)
-	formRef.value?.clearValidate()
 }
 const removeLastBillItem = () => {
 	form.value.orderList.pop()
 }
 
+const formRef = ref<FormInstance>()
 const { rules, orderListRules } = useEditFormValidation(form, formRef.value)
+
+const onServiceChange = () => {
+	form.value.total = Math.round((form.value.summary + form.value.service) * 100) / 100
+	form.value.paid = Math.round((form.value.total + form.value.tips) * 100) / 100
+}
+const onSummeryChange = () => {
+	form.value.service = Math.round((form.value.total - form.value.summary) * 100) / 100
+}
+const onTipsChange = () => {
+	form.value.paid = Math.round((form.value.total + form.value.tips) * 100) / 100
+}
+const onPaidChange = () => {
+	form.value.tips = Math.round((form.value.paid - form.value.total) * 100) / 100
+}
+const sumsOfOrderList = computed(() =>
+	form.value.orderList.reduce((acc, item) => acc + item.sum, 0)
+)
+watch(
+	sumsOfOrderList,
+	(value) => {
+		form.value.summary = value
+		form.value.total = Math.round((form.value.summary + form.value.service) * 100) / 100
+		form.value.paid = Math.round((form.value.total + form.value.tips) * 100) / 100
+	},
+	{ immediate: true }
+)
+
 const onSave = async () => {
 	try {
 		await useOnValidate(formRef.value, 'Ошибка заполнения формы')
