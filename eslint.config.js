@@ -21,6 +21,7 @@ export default [
 			'no-unused-vars': 'off',
 			'no-undef': 'off',
 			'no-console': 'warn',
+			'no-irregular-whitespace': 'off',
 		},
 	},
 

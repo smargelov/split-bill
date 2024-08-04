@@ -18,6 +18,8 @@ const { bill, updateBill } = useBillStore(id as string)
 
 const form = ref<Nullable<IBill>>(bill.value ?? null)
 
+const isEditMode = ref(false)
+
 const onSave = () => {
 	if (form.value) {
 		updateBill(form.value)
