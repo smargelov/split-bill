@@ -1,9 +1,8 @@
 <template>
 	<footer class="footer">
-		<p>test</p>
-		<p>test</p>
-		<p>test</p>
 		<theme-switcher />
+		<router-link to="/bills">Чеки</router-link>
+		<router-link to="/">Добавить</router-link>
 	</footer>
 </template>
 

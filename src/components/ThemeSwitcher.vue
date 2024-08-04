@@ -3,6 +3,7 @@
 		v-model="isDark"
 		:active-action-icon="Moon"
 		:inactive-action-icon="Sunny"
+		size="large"
 		class="theme-switcher"
 	/>
 </template>

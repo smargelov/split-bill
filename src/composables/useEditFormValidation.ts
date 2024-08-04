@@ -16,6 +16,7 @@ export const useEditFormValidation = (
 
 	const rules = reactive<FormRules<IBill>>({
 		date: [{ required: true, message: 'Обязательное поле', trigger: ['blur'] }],
+		currency: [{ required: true, message: 'Обязательное поле', trigger: ['blur'] }],
 		place: [{ required: true, message: 'Обязательное поле', trigger: ['blur'] }],
 		persons: [
 			{

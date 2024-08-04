@@ -1,13 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '@/pages/Home.vue'
-import Bills from '@/pages/Bills.vue'
 import NewBill from '@/pages/NewBill.vue'
 import Bill from '@/pages/Bill.vue'
+import Bills from '@/pages/Bills.vue'
 
 const routes = [
 	{
 		path: '/',
-		component: Home,
+		component: NewBill,
 	},
 	{
 		path: '/bills',
@@ -15,10 +14,6 @@ const routes = [
 			{
 				path: '',
 				component: Bills,
-			},
-			{
-				path: 'new',
-				component: NewBill,
 			},
 			{
 				path: ':id',

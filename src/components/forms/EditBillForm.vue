@@ -1,13 +1,35 @@
 <template>
 	<el-form ref="formRef" :model="form" :rules="rules" class="add-form" label-position="top">
-		<el-form-item label="Дата" prop="date">
-			<el-date-picker
-				v-model="form.date"
-				type="datetime"
-				placeholder="Выбрать дату"
-				size="large"
-			/>
-		</el-form-item>
+		<div class="add-form__line">
+			<el-form-item label="Дата" prop="date" class="add-form__line-item">
+				<el-date-picker
+					v-model="form.date"
+					type="datetime"
+					placeholder="Выбрать дату"
+					size="large"
+					class="add-form__date-picker"
+				/>
+			</el-form-item>
+			<el-form-item
+				label="Валюта"
+				prop="currency"
+				class="add-form__line-item add-form__line-item--fit"
+			>
+				<el-select
+					v-model="form.currency"
+					size="large"
+					placeholder="Выбрать или внести валюту"
+					@focus="setDefaultCurrencyValue"
+				>
+					<el-option
+						v-for="currency in currencies"
+						:key="currency"
+						:label="currency"
+						:value="currency"
+					/>
+				</el-select>
+			</el-form-item>
+		</div>
 		<el-form-item label="Заведение" prop="place">
 			<el-input v-model="form.place" type="text" size="large" />
 		</el-form-item>
@@ -124,6 +146,7 @@ import BillItem from '@/components/forms/BillItem.vue'
 import { useInitialBillItem } from '@/composables/useInitialBillItem.ts'
 import { useEditFormValidation } from '@/composables/useEditFormValidation.ts'
 import { useOnValidate } from '@/composables/useOnValidate.ts'
+import { useCurrency } from '@/composables/useCurrency.ts'
 
 const form = defineModel<IBill>('form', { required: true })
 
@@ -136,6 +159,13 @@ const { initialBillItem } = useInitialBillItem()
 const { persons } = usePerson()
 const personHandler = (newPersons: string[]) => {
 	persons.value = newPersons
+}
+
+const { currencies } = useCurrency()
+const setDefaultCurrencyValue = () => {
+	if (!form.value.currency) {
+		form.value.currency = currencies.value[0]
+	}
 }
 
 const addNewBillItem = () => {
@@ -193,6 +223,17 @@ const onSave = async () => {
 		display: grid;
 		gap: 1rem;
 		margin-bottom: 1rem;
+	}
+
+	&__line {
+		display: flex;
+		gap: 20px;
+	}
+
+	&__line-item {
+		&--fit {
+			flex-grow: 1;
+		}
 	}
 }
 </style>
