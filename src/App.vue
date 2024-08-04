@@ -9,6 +9,10 @@
 
 <script setup lang="ts"></script>
 
+<style lang="scss">
+@import '@/assets/styles/base';
+</style>
+
 <style lang="scss" scoped>
 .app {
 	display: grid;

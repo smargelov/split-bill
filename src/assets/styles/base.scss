@@ -9,10 +9,10 @@ body {
 	display: flex;
 	flex-direction: column;
 	min-height: 100%;
-	scroll-behavior: smooth;
-	text-rendering: optimizeSpeed;
 	overflow-x: hidden;
 	touch-action: manipulation;
+	scroll-behavior: smooth;
+	text-rendering: optimizeSpeed;
 }
 
 *,
@@ -117,4 +117,8 @@ input,
 select,
 button {
 	outline: none;
+}
+
+.el-table th .cell {
+	white-space: nowrap;
 }

@@ -1,6 +1,7 @@
 <template>
 	<l-page :title="pageTitle">
-		<edit-bill v-if="form" v-model:form="form" @on-save="onSave" />
+		<detail-bill v-if="!isEditMode" :bill="bill" @go-to-edit-mode="goToEditMode" />
+		<edit-bill v-if="form && isEditMode" v-model:form="form" @on-save="onSave" />
 	</l-page>
 </template>
 
@@ -9,6 +10,7 @@ import { useRoute } from 'vue-router'
 import { useBillStore } from '@/composables/useBillStore.ts'
 import type { IBill } from '@/types/bill.ts'
 import EditBill from '@/components/EditBill.vue'
+import DetailBill from '@/components/detailBill.vue'
 
 const route = useRoute()
 const id = route.params.id
@@ -19,9 +21,13 @@ const { bill, updateBill } = useBillStore(id as string)
 const form = ref<Nullable<IBill>>(bill.value ?? null)
 
 const isEditMode = ref(false)
+const goToEditMode = () => {
+	isEditMode.value = true
+}
 
 const onSave = () => {
 	if (form.value) {
+		isEditMode.value = false
 		updateBill(form.value)
 	}
 }

@@ -27,16 +27,13 @@
 
 <script setup lang="ts">
 import type { IBill } from '@/types/bill.ts'
-import { useDateFormat } from '@vueuse/core'
+import { useBillDetail } from '@/composables/useBillDetail.ts'
 
 const props = defineProps<{
 	bill: IBill
 }>()
 
-const persons = computed(() => props.bill.persons.join(', '))
-const date = useDateFormat(props.bill.date, 'DD.MM.YYYY')
-const day = useDateFormat(props.bill.date, 'dddd', { locales: 'ru' })
-const time = useDateFormat(props.bill.date, 'HH:mm')
+const { persons, date, day, time } = useBillDetail(props.bill)
 </script>
 
 <style lang="scss" scoped>

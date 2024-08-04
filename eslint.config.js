@@ -158,4 +158,12 @@ export default [
 			'prettier/prettier': 'warn',
 		},
 	},
+
+	// Overrides for specific files
+	{
+		files: ['src/App.vue'],
+		rules: {
+			'vue/enforce-style-attribute': 'off',
+		},
+	},
 ]

@@ -53,8 +53,8 @@
 				/>
 			</el-select>
 		</el-form-item>
-		<el-divider content-position="left">Элементы</el-divider>
 		<div class="add-form__items">
+			<el-divider content-position="left">Элементы</el-divider>
 			<bill-item
 				v-for="(_, index) in form.orderList"
 				:key="index"
@@ -65,7 +65,7 @@
 			/>
 		</div>
 		<el-form-item>
-			<el-button-group>
+			<el-button-group class="add-form__buttons">
 				<el-button :icon="CirclePlus" type="primary" text bg @click="addNewBillItem">
 					Добавить
 				</el-button>
@@ -131,7 +131,7 @@
 				</el-form-item>
 			</el-col>
 		</el-row>
-		<el-button-group>
+		<el-button-group class="add-form__buttons">
 			<el-button :icon="DocumentAdd" type="success" @click="onSave"> Сохранить</el-button>
 		</el-button-group>
 	</el-form>
@@ -204,11 +204,13 @@ watch(
 	{ immediate: true }
 )
 
+const isEditMode = computed(() => !!form.value.id)
+
 const onSave = async () => {
 	try {
 		await useOnValidate(formRef.value, 'Ошибка заполнения формы')
 		emit('on-save')
-		ElMessage.success('Чек успешно добавлен')
+		ElMessage.success(`Чек успешно ${isEditMode.value ? 'изменен' : 'добавлен'}`)
 	} catch (error) {
 		ElMessage.error((error as Error).message)
 	}
@@ -218,6 +220,11 @@ const onSave = async () => {
 <style lang="scss" scoped>
 .add-form {
 	display: grid;
+	gap: 1rem;
+
+	& > * {
+		margin-block: 0;
+	}
 
 	&__items {
 		display: grid;
@@ -233,6 +240,21 @@ const onSave = async () => {
 	&__line-item {
 		&--fit {
 			flex-grow: 1;
+		}
+	}
+
+	&__buttons {
+		display: grid;
+
+		&:has(> *:nth-child(2)) {
+			grid-template-columns: 1fr 1fr;
+			gap: 0.5rem;
+			width: 100%;
+
+			&::before,
+			&::after {
+				display: none;
+			}
 		}
 	}
 }
