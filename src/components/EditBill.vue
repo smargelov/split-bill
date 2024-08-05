@@ -16,8 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import EditBillForm from '@/components/forms/EditBillForm.vue'
-import JsonBillForm from '@/components/forms/JsonBillForm.vue'
 import type { IBill } from '@/types/bill.ts'
 
 const form = defineModel<IBill>('form', { required: true })

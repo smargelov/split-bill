@@ -9,8 +9,6 @@
 import { useRoute } from 'vue-router'
 import { useBillStore } from '@/composables/useBillStore.ts'
 import type { IBill } from '@/types/bill.ts'
-import EditBill from '@/components/EditBill.vue'
-import DetailBill from '@/components/detailBill.vue'
 
 const route = useRoute()
 const id = route.params.id

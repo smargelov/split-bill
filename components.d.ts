@@ -11,7 +11,7 @@ declare module 'vue' {
     BillItem: typeof import('./src/components/forms/BillItem.vue')['default']
     BillListCard: typeof import('./src/components/BillListCard.vue')['default']
     BillsListCard: typeof import('./src/components/BillsListCard.vue')['default']
-    DetailBill: typeof import('./src/components/detailBill.vue')['default']
+    DetailBill: typeof import('./src/components/DetailBill.vue')['default']
     EditBill: typeof import('./src/components/EditBill.vue')['default']
     EditBillForm: typeof import('./src/components/forms/EditBillForm.vue')['default']
     ElAlert: typeof import('element-plus/es')['ElAlert']

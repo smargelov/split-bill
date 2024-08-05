@@ -6,7 +6,6 @@
 
 <script setup lang="ts">
 import type { IBill } from '@/types/bill.ts'
-import EditBill from '@/components/EditBill.vue'
 import { useInitialBillItem } from '@/composables/useInitialBillItem.ts'
 import { useBillsStore } from '@/composables/useBillsStore.ts'
 import { useRouter } from 'vue-router'
