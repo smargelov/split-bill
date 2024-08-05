@@ -1,7 +1,12 @@
 <template>
 	<l-page :title="pageTitle">
 		<div class="bill-list">
-			<bill-list-card v-for="bill in bills" :key="bill.id" :bill="bill" />
+			<bill-list-card
+				v-for="bill in bills"
+				:key="bill.id"
+				:bill="bill"
+				@delete-bill="removeBill"
+			/>
 		</div>
 	</l-page>
 </template>
@@ -11,7 +16,7 @@ import { useBillsStore } from '@/composables/useBillsStore.ts'
 
 const pageTitle = 'Чеки'
 
-const { bills } = useBillsStore()
+const { bills, removeBill } = useBillsStore()
 </script>
 
 <style lang="scss" scoped>
