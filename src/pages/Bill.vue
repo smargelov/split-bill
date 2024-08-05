@@ -2,6 +2,7 @@
 	<l-page :title="pageTitle">
 		<detail-bill v-if="!isEditMode" :bill="bill" @go-to-edit-mode="goToEditMode" />
 		<edit-bill v-if="form && isEditMode" v-model:form="form" @on-save="onSave" />
+		<members-score :bill="form" />
 	</l-page>
 </template>
 
@@ -13,6 +14,8 @@ import type { IBill } from '@/types/bill.ts'
 const route = useRoute()
 const id = route.params.id
 const pageTitle = `Чек #${id}`
+const title = useTitle()
+title.value = pageTitle
 
 const { bill, updateBill } = useBillStore(id as string)
 

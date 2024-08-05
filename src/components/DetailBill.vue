@@ -57,7 +57,7 @@
 				<p class="detail-bill__footer-item">
 					<el-text type="info">Сумма:</el-text>
 					<span>
-						{{ bill.total }}
+						{{ bill.summary }}
 						<el-text type="info"> {{ bill.currency }}</el-text>
 					</span>
 				</p>
@@ -71,7 +71,7 @@
 				<p class="detail-bill__footer-item">
 					<el-text type="info">Итого:</el-text>
 					<span>
-						{{ bill.summary }}
+						{{ bill.total }}
 						<el-text type="info"> {{ bill.currency }}</el-text>
 					</span>
 				</p>

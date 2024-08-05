@@ -43,6 +43,7 @@ declare module 'vue' {
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     JsonBillForm: typeof import('./src/components/forms/JsonBillForm.vue')['default']
     LPage: typeof import('./src/components/layouts/LPage.vue')['default']
+    MembersScore: typeof import('./src/components/MembersScore.vue')['default']
     Page: typeof import('./src/components/layouts/page.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

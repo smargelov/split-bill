@@ -1,7 +1,7 @@
 <template>
 	<div class="page">
 		<h1 class="page__title">{{ title }}</h1>
-		<article class="page_content">
+		<article class="page__content">
 			<slot />
 		</article>
 	</div>
@@ -16,6 +16,11 @@ defineProps<{
 <style lang="scss" scoped>
 .page {
 	display: grid;
-	gap: 1rem;
+	gap: 2rem;
+
+	&__content {
+		display: grid;
+		gap: 1rem;
+	}
 }
 </style>

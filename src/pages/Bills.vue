@@ -15,6 +15,8 @@
 import { useBillsStore } from '@/composables/useBillsStore.ts'
 
 const pageTitle = 'Чеки'
+const title = useTitle()
+title.value = pageTitle
 
 const { bills, removeBill } = useBillsStore()
 </script>

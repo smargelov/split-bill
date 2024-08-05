@@ -11,6 +11,8 @@ import { useBillsStore } from '@/composables/useBillsStore.ts'
 import { useRouter } from 'vue-router'
 
 const pageTitle = 'Новый чек'
+const title = useTitle()
+title.value = pageTitle
 
 const { initialBillItem } = useInitialBillItem()
 
