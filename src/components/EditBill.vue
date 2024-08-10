@@ -2,7 +2,7 @@
 	<div class="edit-bill">
 		<el-tabs v-model="activeTab" class="demo-tabs">
 			<el-tab-pane label="Вручную" name="manually">
-				<edit-bill-form v-model:form="form" @on-save="onSave" />
+				<edit-bill-form v-model:form="form" :initial-bill="initialBill" @on-save="onSave" />
 			</el-tab-pane>
 			<el-tab-pane label="JSON" name="json">
 				<json-bill-form
@@ -19,6 +19,10 @@
 import type { IBill } from '@/types/bill.ts'
 
 const form = defineModel<IBill>('form', { required: true })
+
+defineProps<{
+	initialBill: IBill
+}>()
 
 const emit = defineEmits<{
 	(e: 'on-save'): void

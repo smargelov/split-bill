@@ -1,7 +1,7 @@
 <template>
 	<footer class="footer">
 		<theme-switcher />
-		<router-link to="/bills">Чеки</router-link>
+		<router-link to="/bills">История</router-link>
 		<router-link to="/">Добавить</router-link>
 	</footer>
 </template>

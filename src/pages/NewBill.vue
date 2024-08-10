@@ -1,6 +1,6 @@
 <template>
 	<l-page :title="pageTitle">
-		<edit-bill v-model:form="form" @on-save="onSave" />
+		<edit-bill v-model:form="form" :initial-bill="initialBill" @on-save="onSave" />
 	</l-page>
 </template>
 
@@ -62,6 +62,7 @@ const router = useRouter()
 const onSave = () => {
 	const id = addBill(form.value)
 	removeDraft()
+	form.value = initialBill
 	router.push({ path: `/bills/${id}` })
 }
 </script>

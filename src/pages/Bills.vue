@@ -1,6 +1,6 @@
 <template>
 	<l-page :title="pageTitle">
-		<div class="bill-list">
+		<div v-if="bills.length" class="bill-list">
 			<bill-list-card
 				v-for="bill in bills"
 				:key="bill.id"
@@ -8,13 +8,14 @@
 				@delete-bill="removeBill"
 			/>
 		</div>
+		<el-empty v-else description="Тут пока ничего нет" />
 	</l-page>
 </template>
 
 <script setup lang="ts">
 import { useBillsStore } from '@/composables/useBillsStore.ts'
 
-const pageTitle = 'Чеки'
+const pageTitle = 'История'
 const title = useTitle()
 title.value = pageTitle
 

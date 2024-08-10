@@ -113,7 +113,12 @@
 			</el-col>
 		</el-row>
 		<el-button-group class="add-form__buttons">
-			<el-button :icon="DocumentAdd" type="success" @click="onSave"> Сохранить</el-button>
+			<el-button v-if="!isEditMode" :icon="Brush" type="info" @click="onClear">
+				Очистить</el-button
+			>
+			<el-button :icon="DocumentAdd" type="success" @click="onSave">
+				{{ isEditMode ? 'Изменить' : 'Добавить' }}
+			</el-button>
 		</el-button-group>
 	</el-form>
 </template>
@@ -121,7 +126,7 @@
 <script setup lang="ts">
 import type { IBill } from '@/types/bill.ts'
 import { usePerson } from '@/composables/usePerson.ts'
-import { CirclePlus, Delete, DocumentAdd } from '@element-plus/icons-vue'
+import { CirclePlus, Delete, DocumentAdd, Brush } from '@element-plus/icons-vue'
 import { ElMessage, type FormInstance } from 'element-plus'
 import { useInitialBillItem } from '@/composables/useInitialBillItem.ts'
 import { useEditFormValidation } from '@/composables/useEditFormValidation.ts'
@@ -129,6 +134,10 @@ import { useOnValidate } from '@/composables/useOnValidate.ts'
 import { useCurrency } from '@/composables/useCurrency.ts'
 
 const form = defineModel<IBill>('form', { required: true })
+
+const props = defineProps<{
+	initialBill: IBill
+}>()
 
 const emit = defineEmits<{
 	(e: 'on-save'): void
@@ -172,7 +181,7 @@ const onPaidChange = () => {
 	form.value.tips = Math.round((form.value.paid - form.value.total) * 100) / 100
 }
 const sumsOfOrderList = computed(() =>
-	form.value.orderList.reduce((acc, item) => acc + item.sum, 0)
+	form.value?.orderList?.reduce((acc, item) => acc + item.sum, 0)
 )
 watch(
 	sumsOfOrderList,
@@ -194,6 +203,14 @@ const onSave = async () => {
 	} catch (error) {
 		ElMessage.error((error as Error).message)
 	}
+}
+
+const onClear = () => {
+	formRef.value?.resetFields()
+
+	form.value = props.initialBill
+	form.value.orderList = [initialBillItem]
+	formRef.value?.clearValidate()
 }
 </script>
 
