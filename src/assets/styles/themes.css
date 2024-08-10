@@ -3,6 +3,8 @@
 	--el-color-black: #232323;
 	--main-bg-color: var(--el-color-white);
 	--el-bg-color: var(--main-bg-color);
+	--el-fill-color-blank: var(--main-bg-color);
+	--el-border-color-lighter: #d7d9de;
 }
 
 html.dark {

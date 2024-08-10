@@ -6,7 +6,6 @@
 					v-model="form.date"
 					type="datetime"
 					placeholder="Выбрать дату"
-					size="large"
 					class="add-form__date-picker"
 				/>
 			</el-form-item>
@@ -17,7 +16,6 @@
 			>
 				<el-select
 					v-model="form.currency"
-					size="large"
 					placeholder="Выбрать или внести валюту"
 					@focus="setDefaultCurrencyValue"
 				>
@@ -31,13 +29,12 @@
 			</el-form-item>
 		</div>
 		<el-form-item label="Заведение" prop="place">
-			<el-input v-model="form.place" type="text" size="large" />
+			<el-input v-model="form.place" type="text" />
 		</el-form-item>
 		<el-form-item label="Участники" prop="persons">
 			<el-select
 				v-model="form.persons"
 				:reserve-keyword="false"
-				size="large"
 				placeholder="Выбрать или внести участников"
 				multiple
 				filterable
@@ -84,7 +81,7 @@
 		<el-row :gutter="20">
 			<el-col :span="8">
 				<el-form-item label="Сумма" prop="summary">
-					<el-input v-model.number="form.summary" type="number" size="large" disabled />
+					<el-input v-model.number="form.summary" type="number" disabled />
 				</el-form-item>
 			</el-col>
 			<el-col :span="8">
@@ -92,19 +89,13 @@
 					<el-input
 						v-model.number="form.service"
 						type="number"
-						size="large"
 						@change="onServiceChange"
 					/>
 				</el-form-item>
 			</el-col>
 			<el-col :span="8">
 				<el-form-item label="Итого" prop="total">
-					<el-input
-						v-model.number="form.total"
-						type="number"
-						size="large"
-						@change="onSummeryChange"
-					/>
+					<el-input v-model.number="form.total" type="number" @change="onSummeryChange" />
 				</el-form-item>
 			</el-col>
 		</el-row>
@@ -112,22 +103,12 @@
 		<el-row :gutter="20">
 			<el-col :span="12">
 				<el-form-item label="Чаевые" prop="tips">
-					<el-input
-						v-model.number="form.tips"
-						type="number"
-						size="large"
-						@change="onTipsChange"
-					/>
+					<el-input v-model.number="form.tips" type="number" @change="onTipsChange" />
 				</el-form-item>
 			</el-col>
 			<el-col :span="12">
 				<el-form-item label="Оплатили" prop="paid">
-					<el-input
-						v-model.number="form.paid"
-						type="number"
-						size="large"
-						@change="onPaidChange"
-					/>
+					<el-input v-model.number="form.paid" type="number" @change="onPaidChange" />
 				</el-form-item>
 			</el-col>
 		</el-row>

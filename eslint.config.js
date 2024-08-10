@@ -22,6 +22,7 @@ export default [
 			'no-undef': 'off',
 			'no-console': 'warn',
 			'no-irregular-whitespace': 'off',
+			'prefer-const': 'error',
 		},
 	},
 

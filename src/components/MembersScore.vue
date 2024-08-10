@@ -1,71 +1,67 @@
 <template>
 	<div class="members-score">
-		<el-divider content-position="left">Участники</el-divider>
-		<el-scrollbar>
-			<el-table :data="membersScore" class="members-score__table" table-layout="auto">
-				<el-table-column type="expand" fixed>
-					<template #default="{ row }">
-						<div class="members-score__expand">
-							<div v-for="item in row.items" :key="item" class="members-score__item">
-								<p>
-									<el-tag type="success"
-										>{{ item.ruName || item.originalName }}
-									</el-tag>
-									<el-tooltip
-										v-if="item.ruName && item.originalName"
-										:content="item.originalName"
-										class="item"
-										effect="dark"
-									>
-										<el-icon>
-											<info-filled />
-										</el-icon>
-									</el-tooltip>
-								</p>
-								<p>
-									{{ item.memberPart }}
-									<el-text type="info">x</el-text>
-									{{ item.price }}
-									<el-text type="info">=</el-text>
-									{{ item.memberMoneyPart }}
-								</p>
-							</div>
+		<el-collapse>
+			<el-collapse-item v-for="member in membersScore" :key="member.name">
+				<template #title>
+					<div class="members-score__title">
+						<el-tag type="primary" size="large">{{ member.name }}</el-tag>
+						<div class="members-score__title-price">
+							<el-tag type="warning" size="large">{{ member.paid }}</el-tag>
+							<el-tag type="info">{{ bill.currency }}</el-tag>
 						</div>
-					</template>
-				</el-table-column>
-				<el-table-column prop="name" label="Имя" fixed />
-				<el-table-column prop="paid" label="Итого" />
-			</el-table>
-		</el-scrollbar>
+					</div>
+				</template>
+				<div class="members-score__items">
+					<members-checkbox-item
+						v-for="(item, index) in bill.orderList"
+						:key="index"
+						:item="item"
+						:member="member"
+						:currency="bill.currency"
+						@change="toggleItemMember(member.name, item)"
+					/>
+				</div>
+			</el-collapse-item>
+		</el-collapse>
 	</div>
 </template>
 
 <script setup lang="ts">
-import type { IBill } from '@/types/bill.ts'
-import { InfoFilled } from '@element-plus/icons-vue'
+import type { IBill, IBillItem } from '@/types/bill.ts'
 import { useMembersScore } from '@/composables/useMembersScore.ts'
+import MembersCheckboxItem from '@/components/MembersCheckboxItem.vue'
 
-const props = defineProps<{
-	bill: IBill
-}>()
+const bill = defineModel<IBill>('bill', { required: true })
 
-const { membersScore } = useMembersScore(props.bill)
+const { membersScore } = useMembersScore(bill.value)
+
+const toggleItemMember = (member: string, item: IBillItem) => {
+	item.members = item.members.includes(member)
+		? item.members.filter((name) => name !== member)
+		: [...item.members, member]
+}
 </script>
 
 <style lang="scss" scoped>
 .members-score {
 	display: grid;
 
-	&__expand {
-		display: grid;
-		gap: 0.5rem;
-		padding: 0.5rem 1rem;
+	&__title {
+		display: flex;
+		flex-grow: 1;
+		gap: 2rem;
+		align-items: center;
+		justify-content: space-between;
 	}
 
-	&__item {
+	&__title-price {
+		display: flex;
+		gap: 0.3rem;
+		align-items: center;
+	}
+
+	&__items {
 		display: grid;
-		grid-template-columns: max-content auto;
-		gap: 2rem;
 	}
 }
 </style>

@@ -10,13 +10,7 @@
 				<el-text type="info">Название заведения:</el-text>
 				{{ bill.place }}
 			</p>
-			<p>
-				<el-text type="info">Участники:</el-text>
-				 
-				<el-tag v-for="person in bill.persons" :key="person" type="primary">
-					{{ person }}
-				</el-tag>
-			</p>
+			<slot name="members-score" />
 		</div>
 		<el-scrollbar>
 			<el-table :data="bill.orderList" class="detail-bill__table" table-layout="auto">
@@ -147,8 +141,6 @@ const { date, day, time } = useBillDetail(props.bill)
 		gap: 0.5rem;
 		align-items: center;
 		justify-content: center;
-		padding: 0.5rem 1rem;
-		border: 1px solid var(--el-color-info-light-7);
 	}
 }
 </style>
