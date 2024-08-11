@@ -21,7 +21,7 @@ export const usePerson = (): IUsePersonReturn => {
 	})
 
 	const removePerson = (person: string): void => {
-		persons.value = persons.value.filter((p) => p !== person)
+		storagePersons.value = storagePersons.value.filter((p) => p !== person)
 	}
 
 	return { addPerson, removePerson, persons }

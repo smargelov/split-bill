@@ -16,6 +16,7 @@
 			>
 				<el-select
 					v-model="form.currency"
+					:disabled="!currencies.length"
 					placeholder="Выбрать или внести валюту"
 					@focus="setDefaultCurrencyValue"
 				>
@@ -28,6 +29,13 @@
 				</el-select>
 			</el-form-item>
 		</div>
+		<el-alert
+			v-if="!currencies.length"
+			:closable="false"
+			title="Добавьте валюту в настройках"
+			type="error"
+			show-icon
+		/>
 		<el-form-item label="Заведение" prop="place">
 			<el-input v-model="form.place" type="text" />
 		</el-form-item>
@@ -114,8 +122,8 @@
 		</el-row>
 		<el-button-group class="add-form__buttons">
 			<el-button v-if="!isEditMode" :icon="Brush" type="info" @click="onClear">
-				Очистить</el-button
-			>
+				Очистить
+			</el-button>
 			<el-button :icon="DocumentAdd" type="success" @click="onSave">
 				{{ isEditMode ? 'Изменить' : 'Добавить' }}
 			</el-button>
