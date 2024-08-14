@@ -81,7 +81,7 @@ const billAllowedFields = [
 	'tips',
 	'paid',
 ]
-const orderListAllowedFields = ['originalName', 'ruName', 'quantity', 'price', 'sum', 'members']
+const orderListAllowedFields = ['name', 'quantity', 'price', 'sum', 'members']
 
 const filterObjectFields = (
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any

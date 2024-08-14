@@ -1,7 +1,6 @@
 export interface IBillItem {
 	id?: string
-	originalName: string
-	ruName: string
+	name: string
 	quantity: number
 	price: number
 	sum: number

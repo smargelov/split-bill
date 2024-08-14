@@ -3,8 +3,7 @@ import type { IBillItem } from '@/types/bill.ts'
 export const useInitialBillItem = (): { initialBillItem: IBillItem } => {
 	const initialBillItem: IBillItem = {
 		id: '',
-		originalName: '',
-		ruName: '',
+		name: '',
 		quantity: 1,
 		price: 0,
 		sum: 0,

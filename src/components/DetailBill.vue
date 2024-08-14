@@ -15,25 +15,11 @@
 		<el-scrollbar>
 			<el-table :data="bill.orderList" class="detail-bill__table" table-layout="auto">
 				<el-table-column
-					prop="ruName"
+					prop="name"
 					label="Наименование"
 					class-name="detail-bill__table-title"
 					fixed
-				>
-					<template #default="{ row }">
-						{{ row.ruName || row.originalName }}
-						<el-tooltip
-							v-if="row.ruName && row.originalName"
-							:content="row.originalName"
-							class="item"
-							effect="dark"
-						>
-							<el-icon>
-								<info-filled />
-							</el-icon>
-						</el-tooltip>
-					</template>
-				</el-table-column>
+				/>
 				<el-table-column prop="quantity" label="Кол-во" />
 				<el-table-column prop="price" label="Цена" />
 				<el-table-column prop="sum" label="Сумма" />
@@ -94,7 +80,7 @@
 <script setup lang="ts">
 import type { IBill } from '@/types/bill.ts'
 import { useBillDetail } from '@/composables/useBillDetail.ts'
-import { InfoFilled, Edit } from '@element-plus/icons-vue'
+import { Edit } from '@element-plus/icons-vue'
 
 const props = defineProps<{
 	bill: IBill

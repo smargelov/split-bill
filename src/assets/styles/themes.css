@@ -6,10 +6,12 @@
 	--el-fill-color-blank: var(--main-bg-color);
 	--el-border-color-lighter: #d7d9de;
 	--footer-bg-color: rgb(217 217 217 / 0.8);
+	--color-inverse: var(--el-color-black);
 }
 
 html.dark {
 	--footer-bg-color: rgb(45 45 45 / 0.8);
 	--main-bg-color: var(--el-color-black);
 	--el-bg-color: var(--main-bg-color);
+	--color-inverse: var(--el-color-white);
 }

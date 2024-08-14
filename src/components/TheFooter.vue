@@ -1,6 +1,6 @@
 <template>
 	<footer class="footer">
-		<el-text type="warning" size="large" class="footer__logo">䷖ SplitBill</el-text>
+		<p class="footer__logo">SplitBill</p>
 		<el-button-group>
 			<el-button :icon="Menu" area-label="История" text bg @click="goToPage('/bills')" />
 			<el-button :icon="Plus" area-label="Добавить" text bg @click="goToPage('/')" />
@@ -52,6 +52,11 @@ const openSetting = () => {
 
 	&__logo {
 		margin-right: auto;
+		padding: 0.3rem;
+		font-size: 1.3rem;
+		border: 1px solid var(--color-inverse);
+		border-radius: 5px;
+		opacity: 0.6;
 	}
 }
 </style>

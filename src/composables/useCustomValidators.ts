@@ -1,4 +1,3 @@
-import type { FormInstance } from 'element-plus'
 import type { InternalRuleItem, SyncValidateResult } from 'async-validator'
 import type { Ref } from 'vue'
 import type { IBill, IBillItem } from '@/types/bill.ts'
@@ -14,11 +13,6 @@ interface IUseCustomValidatorsReturn {
 		value: number,
 		callback: (error?: string | Error) => void
 	) => void | SyncValidateResult
-	validateItemName: (
-		rule: InternalRuleItem,
-		_: string,
-		callback: (error?: string | Error) => void
-	) => void | SyncValidateResult
 	validateItemSum: (
 		rule: InternalRuleItem,
 		value: number,
@@ -31,10 +25,7 @@ interface IUseCustomValidatorsReturn {
 	) => void | SyncValidateResult
 }
 
-export const useCustomValidators = <T>(
-	form: Ref<T>,
-	formRef?: FormInstance
-): IUseCustomValidatorsReturn => {
+export const useCustomValidators = <T>(form: Ref<T>): IUseCustomValidatorsReturn => {
 	const validateTotal = (
 		_: InternalRuleItem,
 		value: number,
@@ -69,24 +60,6 @@ export const useCustomValidators = <T>(
 		return (form.value as IBill).orderList[index]
 	}
 
-	const validateItemName = (
-		rule: InternalRuleItem,
-		_: string,
-		callback: (error?: string | Error) => void
-	): void | SyncValidateResult => {
-		const index = getCurrentItemIndex(rule)
-		const { ruName, originalName } = getCurrentItem(index)
-		if (!originalName && !ruName) {
-			callback(new Error('Заполните одно из названий'))
-		} else {
-			if ((originalName || ruName) && formRef) {
-				formRef.clearValidate(`orderList.${index}.originalName`)
-				formRef.clearValidate(`orderList.${index}.ruName`)
-			}
-			callback()
-		}
-	}
-
 	const validateItemSum = (
 		rule: InternalRuleItem,
 		value: number,
@@ -103,12 +76,9 @@ export const useCustomValidators = <T>(
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const checkBillItem = (item: any): boolean => {
-		const { originalName, ruName, quantity, price, sum, members } = item
+		const { name, quantity, price, sum, members } = item
 
-		if ('originalName' in item && typeof originalName !== 'string') {
-			return false
-		}
-		if ('ruName' in item && typeof ruName !== 'string') {
+		if ('name' in item && typeof name !== 'string') {
 			return false
 		}
 		if (
@@ -185,7 +155,6 @@ export const useCustomValidators = <T>(
 	return {
 		validateTotal,
 		validatePaid,
-		validateItemName,
 		validateItemSum,
 		validateJsonText,
 	}

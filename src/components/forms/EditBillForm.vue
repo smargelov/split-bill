@@ -1,10 +1,11 @@
 <template>
 	<el-form ref="formRef" :model="form" :rules="rules" class="add-form" label-position="top">
 		<div class="add-form__line">
-			<el-form-item label="Дата" prop="date" class="add-form__line-item">
+			<el-form-item label="Дата" prop="date" class="add-form__line-item add-form__field">
 				<el-date-picker
 					v-model="form.date"
 					type="datetime"
+					size="small"
 					placeholder="Выбрать дату"
 					class="add-form__date-picker"
 				/>
@@ -12,7 +13,8 @@
 			<el-form-item
 				label="Валюта"
 				prop="currency"
-				class="add-form__line-item add-form__line-item--fit"
+				size="small"
+				class="add-form__field add-form__line-item add-form__line-item--fit"
 			>
 				<el-select
 					v-model="form.currency"
@@ -36,10 +38,10 @@
 			type="error"
 			show-icon
 		/>
-		<el-form-item label="Заведение" prop="place">
-			<el-input v-model="form.place" type="text" />
+		<el-form-item class="add-form__field" label="Заведение" prop="place" label-position="left">
+			<el-input v-model="form.place" type="text" size="small" />
 		</el-form-item>
-		<el-form-item label="Участники" prop="persons">
+		<el-form-item class="add-form__field" prop="persons">
 			<el-select
 				v-model="form.persons"
 				:reserve-keyword="false"
@@ -59,7 +61,7 @@
 			</el-select>
 		</el-form-item>
 		<div class="add-form__items">
-			<el-divider content-position="left">Элементы</el-divider>
+			<el-divider content-position="left" class="add-form__divider">Заказ</el-divider>
 			<bill-item
 				v-for="(_, index) in form.orderList"
 				:key="index"
@@ -69,7 +71,7 @@
 				:rules="orderListRules"
 			/>
 		</div>
-		<el-form-item>
+		<el-form-item class="add-form__field">
 			<el-button-group class="add-form__buttons">
 				<el-button :icon="CirclePlus" type="primary" text bg @click="addNewBillItem">
 					Добавить
@@ -88,35 +90,50 @@
 		</el-form-item>
 		<el-row :gutter="20">
 			<el-col :span="8">
-				<el-form-item label="Сумма" prop="summary">
-					<el-input v-model.number="form.summary" type="number" disabled />
+				<el-form-item class="add-form__field" label="Сумма" prop="summary">
+					<el-input v-model.number="form.summary" type="number" size="small" disabled />
 				</el-form-item>
 			</el-col>
 			<el-col :span="8">
-				<el-form-item label="Сервис" prop="service">
+				<el-form-item class="add-form__field" label="Сервис" prop="service">
 					<el-input
 						v-model.number="form.service"
 						type="number"
+						size="small"
 						@change="onServiceChange"
 					/>
 				</el-form-item>
 			</el-col>
 			<el-col :span="8">
-				<el-form-item label="Итого" prop="total">
-					<el-input v-model.number="form.total" type="number" @change="onSummeryChange" />
+				<el-form-item class="add-form__field" label="Итого" prop="total">
+					<el-input
+						v-model.number="form.total"
+						type="number"
+						size="small"
+						@change="onSummeryChange"
+					/>
 				</el-form-item>
 			</el-col>
 		</el-row>
-		<el-divider />
 		<el-row :gutter="20">
 			<el-col :span="12">
-				<el-form-item label="Чаевые" prop="tips">
-					<el-input v-model.number="form.tips" type="number" @change="onTipsChange" />
+				<el-form-item class="add-form__field" label="Чаевые" prop="tips">
+					<el-input
+						v-model.number="form.tips"
+						type="number"
+						size="small"
+						@change="onTipsChange"
+					/>
 				</el-form-item>
 			</el-col>
 			<el-col :span="12">
-				<el-form-item label="Оплатили" prop="paid">
-					<el-input v-model.number="form.paid" type="number" @change="onPaidChange" />
+				<el-form-item class="add-form__field" label="Оплатили" prop="paid">
+					<el-input
+						v-model.number="form.paid"
+						type="number"
+						size="small"
+						@change="onPaidChange"
+					/>
 				</el-form-item>
 			</el-col>
 		</el-row>
@@ -174,7 +191,7 @@ const removeLastBillItem = () => {
 }
 
 const formRef = ref<FormInstance>()
-const { rules, orderListRules } = useEditFormValidation(form, formRef.value)
+const { rules, orderListRules } = useEditFormValidation(form)
 
 const onServiceChange = () => {
 	form.value.total = roundToHundredth(form.value.summary + form.value.service)
@@ -235,7 +252,6 @@ const onClear = () => {
 	&__items {
 		display: grid;
 		gap: 1rem;
-		margin-bottom: 1rem;
 	}
 
 	&__line {
@@ -247,6 +263,14 @@ const onClear = () => {
 		&--fit {
 			flex-grow: 1;
 		}
+	}
+
+	&__field {
+		margin-block: 0;
+	}
+
+	&__divider {
+		margin-block: 12px 8px;
 	}
 
 	&__buttons {

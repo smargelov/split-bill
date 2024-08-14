@@ -1,4 +1,4 @@
-import type { FormInstance, FormRules } from 'element-plus'
+import type { FormRules } from 'element-plus'
 import type { IBill, IBillItem } from '@/types/bill.ts'
 import { useCustomValidators } from '@/composables/useCustomValidators.ts'
 
@@ -7,12 +7,8 @@ interface IUseEditFormValidationReturn {
 	orderListRules: FormRules<IBillItem>
 }
 
-export const useEditFormValidation = (
-	form: Ref<IBill>,
-	formRef?: FormInstance
-): IUseEditFormValidationReturn => {
-	const { validateTotal, validateItemName, validateItemSum, validatePaid } =
-		useCustomValidators<IBill>(form, formRef)
+export const useEditFormValidation = (form: Ref<IBill>): IUseEditFormValidationReturn => {
+	const { validateTotal, validateItemSum, validatePaid } = useCustomValidators<IBill>(form)
 
 	const rules = reactive<FormRules<IBill>>({
 		date: [{ required: true, message: 'Обязательное поле', trigger: ['blur'] }],
@@ -32,8 +28,7 @@ export const useEditFormValidation = (
 	})
 
 	const orderListRules = reactive<FormRules<IBillItem>>({
-		originalName: [{ validator: validateItemName, trigger: ['blur'] }],
-		ruName: [{ validator: validateItemName, trigger: ['blur'] }],
+		name: [{ required: true, message: 'Обязательное поле', trigger: ['blur'] }],
 		quantity: [
 			{ required: true, message: 'Обязательное поле', trigger: ['blur'] },
 			{ type: 'number', min: 1, message: 'Меньше 1', trigger: ['blur'] },

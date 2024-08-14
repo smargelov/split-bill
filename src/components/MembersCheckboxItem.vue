@@ -1,14 +1,14 @@
 <template>
 	<el-checkbox
-		:label="item.ruName"
-		:value="item.ruName"
+		:label="item.name"
+		:value="item.name"
 		:model-value="isChecked"
 		size="large"
 		class="member-checkbox-item"
 		@change="onChange"
 	>
 		<div class="member-checkbox-item__content">
-			<p class="member-checkbox-item__title">{{ item.ruName || item.originalName }}</p>
+			<p class="member-checkbox-item__title">{{ item.name }}</p>
 			<p class="member-checkbox-item__price">
 				<el-text v-if="isChecked" type="info" class="member-checkbox-item__price-text">
 					{{ partText }}
