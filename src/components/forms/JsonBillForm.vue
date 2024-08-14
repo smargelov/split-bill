@@ -68,7 +68,7 @@ const jsonForm = ref<IJsonBill>({
 
 const isEditMode = computed(() => !!form.value?.id)
 
-const { rules } = useJsonFormValidation(jsonForm, formRef.value)
+const { rules } = useJsonFormValidation(jsonForm)
 
 watchEffect(() => {
 	if (isOpen.value) {
