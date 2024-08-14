@@ -13,7 +13,7 @@
 			</p>
 			<p>
 				Сумма:
-				<el-text size="large" type="warning">{{ bill.total }}</el-text>
+				<el-text size="large" type="warning">{{ bill.paid }}</el-text>
 				<el-text type="info">  {{ bill.currency }}</el-text>
 			</p>
 		</template>

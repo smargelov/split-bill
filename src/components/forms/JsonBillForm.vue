@@ -1,59 +1,77 @@
 <template>
-	<el-form ref="formRef" :model="jsonForm" :rules="rules" class="json-bill-form">
-		<el-form-item prop="jsonText">
-			<el-input
-				v-model="jsonForm.jsonText"
-				:autosize="{ minRows: 5, maxRows: 15 }"
-				class="json-bill-form__json-textarea"
-				type="textarea"
-				placeholder="Вставить json"
-			/>
-		</el-form-item>
-		<el-button-group class="json-bill-form__buttons">
-			<el-button :icon="Delete" size="large" @click="onClear">Очистить</el-button>
-			<el-button
-				v-if="isCopySupported && jsonForm.jsonText"
-				:icon="CopyDocument"
-				size="large"
-				@click="onCopy"
+	<div class="json-bill-form">
+		<el-button :icon="DocumentAdd" type="info" bg text @click="openDialog">
+			{{ isEditMode ? 'Изменить JSON' : 'Добавить JSON' }}
+		</el-button>
+		<teleport to="body">
+			<el-dialog
+				v-model="isOpen"
+				:title="isEditMode ? 'Изменить JSON' : 'Добавить JSON'"
+				visible="true"
 			>
-				Копировать
-			</el-button>
-			<el-button :icon="SuccessFilled" type="success" size="large" @click="onSave">
-				Сохранить
-			</el-button>
-		</el-button-group>
-	</el-form>
+				<el-form ref="formRef" :model="jsonForm" :rules="rules">
+					<el-form-item prop="jsonText">
+						<el-input
+							v-model="jsonForm.jsonText"
+							:autosize="{ minRows: 5, maxRows: 15 }"
+							class="json-bill-form__json-textarea"
+							type="textarea"
+							placeholder="Вставить json"
+						/>
+					</el-form-item>
+				</el-form>
+				<template #footer>
+					<el-button
+						v-if="isCopySupported && jsonForm.jsonText"
+						:icon="CopyDocument"
+						size="large"
+						aria-label="Скопировать"
+						@click="onCopy"
+					/>
+					<el-button-group class="json-bill-form__buttons">
+						<el-button :icon="Delete" size="large" @click="onClear">Очистить</el-button>
+						<el-button
+							:icon="SuccessFilled"
+							type="success"
+							size="large"
+							@click="onSave"
+						>
+							Применить
+						</el-button>
+					</el-button-group>
+				</template>
+			</el-dialog>
+		</teleport>
+	</div>
 </template>
 
 <script setup lang="ts">
 import type { IBill, IBillItem, IJsonBill } from '@/types/bill.ts'
-import { Delete, CopyDocument, SuccessFilled } from '@element-plus/icons-vue'
+import { Delete, CopyDocument, SuccessFilled, DocumentAdd } from '@element-plus/icons-vue'
 import 'element-plus/es/components/message/style/css'
 import { ElMessage, type FormInstance } from 'element-plus'
 import { useJsonFormValidation } from '@/composables/useJsonFormValidation.ts'
 import { useOnValidate } from '@/composables/useOnValidate.ts'
 
 const form = defineModel<IBill>('form')
-
-const props = defineProps<{
-	isJsonTabActive: boolean
-}>()
-
-const emit = defineEmits<{
-	(e: 'on-save'): void
-}>()
-
 const formRef = ref<FormInstance>()
+
+const isOpen = ref(false)
+const openDialog = () => {
+	formRef.value?.clearValidate()
+	isOpen.value = true
+}
 
 const jsonForm = ref<IJsonBill>({
 	jsonText: '',
 })
 
+const isEditMode = computed(() => !!form.value?.id)
+
 const { rules } = useJsonFormValidation(jsonForm, formRef.value)
 
 watchEffect(() => {
-	if (props.isJsonTabActive) {
+	if (isOpen.value) {
 		jsonForm.value.jsonText = JSON.stringify(form.value, null, 2)
 	}
 })
@@ -112,7 +130,7 @@ const onSave = async () => {
 			orderList,
 		}
 		form.value = { ...form.value, ...formatedBill } as IBill
-		emit('on-save')
+		isOpen.value = false
 		ElMessage.success('JSON сохранён')
 	} catch (error) {
 		ElMessage.error((error as Error).message)

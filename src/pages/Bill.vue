@@ -1,11 +1,6 @@
 <template>
 	<l-page :title="pageTitle">
-		<detail-bill v-if="!isEditMode" :bill="bill" @go-to-edit-mode="goToEditMode">
-			<template #members-score>
-				<members-score v-model:bill="form" />
-			</template>
-		</detail-bill>
-		<edit-bill v-if="form && isEditMode" v-model:form="form" @on-save="onSave" />
+		<edit-bill v-model:form="form" @on-save="onSave" />
 	</l-page>
 </template>
 
@@ -24,14 +19,8 @@ const { bill, updateBill } = useBillStore(id as string)
 
 const form = ref<Nullable<IBill>>(bill.value ?? null)
 
-const isEditMode = ref(false)
-const goToEditMode = () => {
-	isEditMode.value = true
-}
-
 const onSave = () => {
 	if (form.value) {
-		isEditMode.value = false
 		updateBill(form.value)
 	}
 }

@@ -1,17 +1,11 @@
 <template>
 	<div class="edit-bill">
-		<el-tabs v-model="activeTab" class="demo-tabs">
-			<el-tab-pane label="Вручную" name="manually">
-				<edit-bill-form v-model:form="form" :initial-bill="initialBill" @on-save="onSave" />
-			</el-tab-pane>
-			<el-tab-pane label="JSON" name="json">
-				<json-bill-form
-					v-model:form="form"
-					:is-json-tab-active="isJsonTabActive"
-					@on-save="goToManually"
-				/>
-			</el-tab-pane>
-		</el-tabs>
+		<edit-bill-form v-model:form="form" :initial-bill="initialBill" @on-save="onSave">
+			<template #members-score>
+				<members-score v-model:bill="form" />
+			</template>
+		</edit-bill-form>
+		<json-bill-form v-model:form="form" />
 	</div>
 </template>
 
@@ -28,10 +22,6 @@ const emit = defineEmits<{
 	(e: 'on-save'): void
 }>()
 
-const activeTab = ref('manually')
-const goToManually = () => (activeTab.value = 'manually')
-const isJsonTabActive = computed(() => activeTab.value === 'json')
-
 const onSave = () => {
 	emit('on-save')
 }
@@ -40,5 +30,6 @@ const onSave = () => {
 <style lang="scss" scoped>
 .edit-bill {
 	display: grid;
+	gap: 1rem;
 }
 </style>

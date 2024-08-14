@@ -60,6 +60,7 @@
 				/>
 			</el-select>
 		</el-form-item>
+		<slot name="members-score" />
 		<div class="add-form__items">
 			<el-divider content-position="left" class="add-form__divider">Заказ</el-divider>
 			<bill-item
@@ -142,7 +143,7 @@
 				Очистить
 			</el-button>
 			<el-button :icon="DocumentAdd" type="success" @click="onSave">
-				{{ isEditMode ? 'Изменить' : 'Добавить' }}
+				{{ isEditMode ? 'Сохранить' : 'Добавить' }}
 			</el-button>
 		</el-button-group>
 	</el-form>
@@ -225,7 +226,7 @@ const onSave = async () => {
 	try {
 		await useOnValidate(formRef.value, 'Ошибка заполнения формы')
 		emit('on-save')
-		ElMessage.success(`Чек успешно ${isEditMode.value ? 'изменен' : 'добавлен'}`)
+		ElMessage.success(`Счёт успешно ${isEditMode.value ? 'сохранён' : 'добавлен'}`)
 	} catch (error) {
 		ElMessage.error((error as Error).message)
 	}
