@@ -104,8 +104,6 @@ const onQuantityOrPriceChange = () => {
 	display: grid;
 
 	&__field {
-		display: flex;
-		gap: 1rem;
 		margin-bottom: 1rem;
 	}
 }
