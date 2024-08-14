@@ -70,6 +70,16 @@ const onChange = () => {
 	margin-right: 0;
 	white-space: normal;
 
+	&__title {
+		display: -webkit-box;
+		overflow: hidden;
+		line-height: 1.3;
+		text-wrap: balance;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		text-overflow: ellipsis;
+	}
+
 	&__content {
 		display: flex;
 		gap: 0.5rem;
