@@ -10,7 +10,5 @@ export interface IOrder {
 
 export interface IMember {
 	name: string
-	items: IOrder[]
-	sum: number
 	paid: number
 }

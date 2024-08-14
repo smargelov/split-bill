@@ -79,6 +79,7 @@
 <script setup lang="ts">
 import type { IBillItem } from '@/types/bill.ts'
 import type { FormRules } from 'element-plus'
+import { roundToHundredth } from '@/utils/filters.ts'
 
 const item = defineModel<IBillItem>({ required: true })
 
@@ -89,7 +90,7 @@ defineProps<{
 }>()
 
 const onQuantityOrPriceChange = () => {
-	item.value.sum = Math.round(item.value.quantity * item.value.price * 100) / 100
+	item.value.sum = roundToHundredth(item.value.quantity * item.value.price)
 }
 </script>
 

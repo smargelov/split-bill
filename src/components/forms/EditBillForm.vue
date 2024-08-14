@@ -140,6 +140,7 @@ import { useInitialBillItem } from '@/composables/useInitialBillItem.ts'
 import { useEditFormValidation } from '@/composables/useEditFormValidation.ts'
 import { useOnValidate } from '@/composables/useOnValidate.ts'
 import { useCurrency } from '@/composables/useCurrency.ts'
+import { roundToHundredth } from '@/utils/filters.ts'
 
 const form = defineModel<IBill>('form', { required: true })
 
@@ -176,17 +177,17 @@ const formRef = ref<FormInstance>()
 const { rules, orderListRules } = useEditFormValidation(form, formRef.value)
 
 const onServiceChange = () => {
-	form.value.total = Math.round((form.value.summary + form.value.service) * 100) / 100
-	form.value.paid = Math.round((form.value.total + form.value.tips) * 100) / 100
+	form.value.total = roundToHundredth(form.value.summary + form.value.service)
+	form.value.paid = roundToHundredth(form.value.total + form.value.tips)
 }
 const onSummeryChange = () => {
-	form.value.service = Math.round((form.value.total - form.value.summary) * 100) / 100
+	form.value.service = roundToHundredth(form.value.total - form.value.summary)
 }
 const onTipsChange = () => {
-	form.value.paid = Math.round((form.value.total + form.value.tips) * 100) / 100
+	form.value.paid = roundToHundredth(form.value.total + form.value.tips)
 }
 const onPaidChange = () => {
-	form.value.tips = Math.round((form.value.paid - form.value.total) * 100) / 100
+	form.value.tips = roundToHundredth(form.value.paid - form.value.total)
 }
 const sumsOfOrderList = computed(() =>
 	form.value?.orderList?.reduce((acc, item) => acc + item.sum, 0)
@@ -195,8 +196,8 @@ watch(
 	sumsOfOrderList,
 	(value) => {
 		form.value.summary = value
-		form.value.total = Math.round((form.value.summary + form.value.service) * 100) / 100
-		form.value.paid = Math.round((form.value.total + form.value.tips) * 100) / 100
+		form.value.total = roundToHundredth(form.value.summary + form.value.service)
+		form.value.paid = roundToHundredth(form.value.total + form.value.tips)
 	},
 	{ immediate: true }
 )

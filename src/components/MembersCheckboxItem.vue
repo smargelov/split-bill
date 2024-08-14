@@ -30,6 +30,7 @@
 <script setup lang="ts">
 import type { IBillItem } from '@/types/bill.ts'
 import type { IMember } from '@/types/member.ts'
+import { roundToHundredth } from '@/utils/filters.ts'
 
 const props = defineProps<{
 	item: IBillItem
@@ -48,13 +49,13 @@ const countOfMembers = computed(() => props.item.members.length)
 const priceText = computed(() => {
 	const { price, quantity, sum } = props.item
 	return isChecked.value
-		? `${sum / countOfMembers.value} из ${sum}`
+		? `${roundToHundredth(sum / countOfMembers.value)} из ${sum}`
 		: `${quantity} × ${price} = ${sum}`
 })
 
 const partText = computed(() => {
 	const { quantity } = props.item
-	return `(${quantity / countOfMembers.value}/${quantity})`
+	return `(${roundToHundredth(quantity / countOfMembers.value)}/${quantity})`
 })
 
 const onChange = () => {
