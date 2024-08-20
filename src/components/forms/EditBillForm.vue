@@ -64,8 +64,8 @@
 		<div class="add-form__items">
 			<el-divider content-position="left" class="add-form__divider">Заказ</el-divider>
 			<bill-item
-				v-for="(_, index) in form.orderList"
-				:key="index"
+				v-for="(item, index) in form.orderList"
+				:key="`${item.id}${index}`"
 				v-model="form.orderList[index]"
 				:persons="form.persons"
 				:position="index"
@@ -185,7 +185,7 @@ const setDefaultCurrencyValue = () => {
 }
 
 const addNewBillItem = () => {
-	form.value.orderList.push(initialBillItem)
+	form.value.orderList.push({ ...initialBillItem, id: new Date().getTime().toString() })
 }
 const removeLastBillItem = () => {
 	form.value.orderList.pop()
